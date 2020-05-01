@@ -9,9 +9,12 @@ package org.lovebing.reactnative.baidumap.uimanager;
 
 import android.util.Log;
 import android.view.View;
+import android.os.Handler;
+import android.os.Looper;
 
 import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.model.LatLng;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
@@ -33,6 +36,7 @@ public class MapViewManager extends ViewGroupManager<MapView> {
     private List<Object> children = new ArrayList<>(10);
     private MapListener mapListener;
     private int childrenCount = 0;
+    private static MapView mapView;
 
     @Override
     public String getName() {
@@ -72,7 +76,7 @@ public class MapViewManager extends ViewGroupManager<MapView> {
 
     @Override
     protected MapView createViewInstance(ThemedReactContext themedReactContext) {
-        MapView mapView =  new MapView(themedReactContext);
+        mapView =  new MapView(themedReactContext);
         BaiduMap map = mapView.getMap();
         mapListener = new MapListener(mapView, themedReactContext);
         map.setOnMapStatusChangeListener(mapListener);
@@ -173,4 +177,21 @@ public class MapViewManager extends ViewGroupManager<MapView> {
         }
         children.clear();
     }
+
+    public static void refreshView() {
+        if (mapView == null) {
+            return;
+        }
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                mapView.onPause();
+                mapView.setVisibility(View.GONE);
+                mapView.setVisibility(View.VISIBLE);
+                mapView.onResume();
+            }
+        });
+    }
+
 }

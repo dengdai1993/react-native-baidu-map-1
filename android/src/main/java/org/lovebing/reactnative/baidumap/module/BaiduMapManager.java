@@ -7,10 +7,17 @@
 
 package org.lovebing.reactnative.baidumap.module;
 
-import android.util.Log;
 import android.support.annotation.NonNull;
+import android.util.Log;
+import android.view.View;
+
+import com.baidu.mapapi.map.MapView;
+import com.facebook.react.bridge.ReadableMap;
+import org.lovebing.reactnative.baidumap.uimanager.MapViewManager;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
+
+import org.lovebing.reactnative.baidumap.uimanager.MapViewManager;
 
 /**
  * @author lovebing
@@ -33,4 +40,8 @@ public class BaiduMapManager extends BaseModule {
         Log.i("initSDK", key);
     }
 
+    @ReactMethod
+    public void refresh() {
+        MapViewManager.refreshView();
+    }
 }
