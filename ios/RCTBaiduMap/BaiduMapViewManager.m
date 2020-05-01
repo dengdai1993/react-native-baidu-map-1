@@ -184,9 +184,11 @@ RCT_CUSTOM_VIEW_PROPERTY(center, CLLocationCoordinate2D, BaiduMapView) {
                             @"params": @{
                                     @"target": @{
                                             @"latitude": @(targetGeoPt.latitude),
-                                            @"longitude": @(targetGeoPt.longitude)
+                                            @"longitude": @(targetGeoPt.longitude),
+                                            @"latitudeDelta": @(mapView.region.span.latitudeDelta),
+                                            @"longitudeDelta": @(mapView.region.span.longitudeDelta)
                                             },
-                                    @"zoom": @"",
+                                    @"zoom": @(mapView.zoomLevel),
                                     @"overlook": @""
                                     }
                             };

@@ -6,7 +6,7 @@
 //
 
 #import "RCBMImageAnnotView.h"
-#import <RCTImageView.h>
+#import <React/RCTImageView.h>
 #import <React/RCTImageSource.h>
 #import <React/UIView+React.h>
 

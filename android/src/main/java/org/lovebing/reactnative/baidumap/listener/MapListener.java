@@ -115,6 +115,8 @@ public class MapListener implements BaiduMap.OnMapStatusChangeListener,
         WritableMap target = Arguments.createMap();
         target.putDouble("latitude", mapStatus.target.latitude);
         target.putDouble("longitude", mapStatus.target.longitude);
+        target.putDouble("longitudeDelta", mapStatus.bound.northeast.latitude - mapStatus.bound.southwest.latitude);
+        target.putDouble("latitudeDelta", mapStatus.bound.northeast.longitude - mapStatus.bound.southwest.longitude);
         writableMap.putMap("target", target);
         writableMap.putDouble("zoom", mapStatus.zoom);
         writableMap.putDouble("overlook", mapStatus.overlook);

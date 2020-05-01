@@ -12,6 +12,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 import android.view.View;
@@ -28,6 +29,7 @@ import com.facebook.drawee.generic.GenericDraweeHierarchy;
 import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder;
 import com.facebook.drawee.interfaces.DraweeController;
 import com.facebook.drawee.view.DraweeHolder;
+import com.facebook.imagepipeline.common.ResizeOptions;
 import com.facebook.imagepipeline.core.ImagePipeline;
 import com.facebook.imagepipeline.image.CloseableImage;
 import com.facebook.imagepipeline.image.CloseableStaticBitmap;
@@ -35,6 +37,8 @@ import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
 import org.lovebing.reactnative.baidumap.R;
+import org.lovebing.reactnative.baidumap.model.IconData;
+import org.lovebing.reactnative.baidumap.util.DensityUtils;
 
 import java.util.Objects;
 
@@ -50,6 +54,7 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
     private DataSource<CloseableReference<CloseableImage>> dataSource;
     private DraweeHolder<?> imageHolder;
     private volatile boolean loadingImage = false;
+    private Context context;
 
     private final ControllerListener<ImageInfo> imageControllerListener =
             new BaseControllerListener<ImageInfo>() {
@@ -84,24 +89,25 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
 
     public OverlayMarker(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public OverlayMarker(Context context,  AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public OverlayMarker(Context context,  AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        init();
+        init(context);
     }
 
     public Marker getMarker() {
         return marker;
     }
 
-    protected void init() {
+    protected void init(Context context) {
+        this.context = context;
         GenericDraweeHierarchy genericDraweeHierarchy = new GenericDraweeHierarchyBuilder(getResources())
                 .setActualImageScaleType(ScalingUtils.ScaleType.FIT_CENTER)
                 .setFadeDuration(0)
@@ -113,6 +119,7 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
     @TargetApi(21)
     public OverlayMarker(Context context,  AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
+        this.context = context;
     }
 
     public String getTitle() {
@@ -176,14 +183,18 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
         }
     }
 
-    public void setIcon(String uri) {
+    public void setIcon(IconData iconData) {
+        String uri = iconData.uri;
         if (uri == null) {
             iconBitmapDescriptor = null;
         } else if (uri.startsWith("http://") || uri.startsWith("https://") ||
                 uri.startsWith("file://") || uri.startsWith("asset://")) {
             loadingImage = true;
+            ResizeOptions resizeOptions = new ResizeOptions(DensityUtils.dip2px(context, iconData.width)
+                    , DensityUtils.dip2px(context, iconData.height));
             ImageRequest imageRequest = ImageRequestBuilder
                     .newBuilderWithSource(Uri.parse(uri))
+                    .setResizeOptions(resizeOptions)
                     .build();
             ImagePipeline imagePipeline = Fresco.getImagePipeline();
             dataSource = imagePipeline.fetchDecodedImage(imageRequest, this);

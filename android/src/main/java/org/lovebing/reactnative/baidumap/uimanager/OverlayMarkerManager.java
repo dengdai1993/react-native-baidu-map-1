@@ -11,6 +11,9 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
+
+import org.lovebing.reactnative.baidumap.model.IconData;
+import org.lovebing.reactnative.baidumap.util.IconUtil;
 import org.lovebing.reactnative.baidumap.util.LatLngUtil;
 import org.lovebing.reactnative.baidumap.view.OverlayMarker;
 
@@ -37,8 +40,9 @@ public class OverlayMarkerManager extends SimpleViewManager<OverlayMarker> {
     }
 
     @ReactProp(name = "icon")
-    public void setIcon(OverlayMarker overlayMarker, String uri) {
-        overlayMarker.setIcon(uri);
+    public void setIcon(OverlayMarker overlayMarker, ReadableMap icon) {
+        IconData iconData = IconUtil.fromReadableMap(icon);
+        overlayMarker.setIcon(iconData);
     }
 
     @ReactProp(name = "perspective")
