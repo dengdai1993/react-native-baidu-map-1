@@ -53,7 +53,7 @@ export default class Marker extends Component {
 //        icon = icon.uri || this.props.icon;
 //      }
 //      return <BaiduMapOverlayMarker {...this.props} icon={icon} />;
-    }
+//    }
   }
 }
 const BaiduMapOverlayMarker = requireNativeComponent('BaiduMapOverlayMarker', Marker);
