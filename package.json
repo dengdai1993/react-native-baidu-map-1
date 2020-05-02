@@ -1,7 +1,7 @@
 {
   "name": "forceclouds-react-native-baidu-map",
-  "version": "1.0.26-backportRN054-4",
-  "description": "Baidu Map SDK modules and views for React Native(Android & iOS), support react native 0.54+. 百度地图 React Native 模块，支持 react native 0.54+，已更新到最新的百度地图 SDK 版本。",
+  "version": "1.0.27",
+  "description": "基于lovebing的fc-npm分支2c2dcee修改",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
