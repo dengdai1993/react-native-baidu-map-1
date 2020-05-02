@@ -1,6 +1,6 @@
 {
   "name": "react-native-baidu-map-wm",
-  "version": "1.0.27",
+  "version": "1.0.29",
   "description": "基于lovebing的fc-npm分支2c2dcee修改",
   "main": "index.js",
   "scripts": {
