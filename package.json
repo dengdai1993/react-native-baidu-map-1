@@ -1,5 +1,5 @@
 {
-  "name": "forceclouds-react-native-baidu-map",
+  "name": "react-native-baidu-map-wm",
   "version": "1.0.27",
   "description": "基于lovebing的fc-npm分支2c2dcee修改",
   "main": "index.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lovebing/react-native-baidu-map.git"
+    "url": "git+https://github.com/dengdai1993/react-native-baidu-map-wm.git"
   },
   "keywords": [
     "Baidu Map",
