@@ -1,3 +1,9 @@
+# 二次修改说明
++ 基于lovebing的fc-npm分支2c2dcee修改
++ 修复RCTImageView.h引用路径的错误，ios增加zoom，双端引入latitudeDelta及longitudeDelta，统一marker的icon在各端的使用方式
++ 安卓需要刷新，否则，很多标志物都是黑色的，但是这段逻辑实现比较差，以后改
+
+---------------------------------------以下是fc-npm版本的说明-----------------------------------------------
 # 修改说明
 + 基于lovebing（原始开发者）的 6c31285
 + 修改目的：lovebing的代码要求react-native 0.61.2，修改为兼容mobilecrm的0.54
