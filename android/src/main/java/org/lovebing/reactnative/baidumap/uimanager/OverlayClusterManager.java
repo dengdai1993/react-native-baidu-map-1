@@ -2,7 +2,7 @@ package org.lovebing.reactnative.baidumap.uimanager;
 
 import android.util.Log;
 import android.view.View;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import org.lovebing.reactnative.baidumap.view.OverlayCluster;

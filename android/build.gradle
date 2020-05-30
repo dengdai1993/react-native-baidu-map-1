@@ -15,9 +15,10 @@ buildscript {
         // jcenter()
         maven { url 'https://maven.aliyun.com/repository/google' }
         maven { url 'https://maven.aliyun.com/repository/jcenter' }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.5.3'
     }
 }
 
@@ -27,6 +28,7 @@ repositories {
     // jcenter()
     maven { url 'https://maven.aliyun.com/repository/google' }
     maven { url 'https://maven.aliyun.com/repository/jcenter' }
+    google()
 }
 
 android {
@@ -50,7 +52,7 @@ android {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
-    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'androidx.appcompat:appcompat:1.0.0'
     compile files('libs/BaiduLBS_Android.jar')
 }
 

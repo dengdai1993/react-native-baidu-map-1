@@ -1,18 +1,10 @@
 package org.lovebing.reactnative.baidumap.util;
 
-import android.content.Context;
-import android.graphics.drawable.Icon;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
-import com.baidu.mapapi.model.LatLng;
-import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 
-import org.lovebing.reactnative.baidumap.constant.LocationDataKey;
 import org.lovebing.reactnative.baidumap.model.IconData;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class IconUtil {
 
