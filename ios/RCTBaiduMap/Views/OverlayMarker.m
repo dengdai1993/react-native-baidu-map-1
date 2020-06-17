@@ -58,6 +58,7 @@
 
     annotation.getAnnotationView = ^BMKAnnotationView * _Nonnull(BMKPointAnnotation * _Nonnull annotation) {
         RCBMImageAnnotView *annotV = [[RCBMImageAnnotView alloc] initWithAnnotation:annotation reuseIdentifier:@"dontCare"];
+        annotV.canShowCallout = NO;
         annotV.bridge = self.bridge;
         NSLog(@"self.icon:%@",self.icon);
         annotV.source = self.icon;
