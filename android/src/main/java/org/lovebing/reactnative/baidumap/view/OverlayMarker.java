@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2016-present, lovebing.org.
- *
+ * <p>
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
@@ -10,12 +10,16 @@ package org.lovebing.reactnative.baidumap.view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.graphics.drawable.Animatable;
 import android.net.Uri;
+
 import androidx.annotation.NonNull;
+
 import android.util.AttributeSet;
 
 import android.view.View;
+
 import com.baidu.mapapi.clusterutil.clustering.ClusterItem;
 import com.baidu.mapapi.map.*;
 import com.baidu.mapapi.model.LatLng;
@@ -36,6 +40,7 @@ import com.facebook.imagepipeline.image.CloseableStaticBitmap;
 import com.facebook.imagepipeline.image.ImageInfo;
 import com.facebook.imagepipeline.request.ImageRequest;
 import com.facebook.imagepipeline.request.ImageRequestBuilder;
+
 import org.lovebing.reactnative.baidumap.R;
 import org.lovebing.reactnative.baidumap.model.IconData;
 import org.lovebing.reactnative.baidumap.util.DensityUtils;
@@ -55,14 +60,16 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
     private DraweeHolder<?> imageHolder;
     private volatile boolean loadingImage = false;
     private Context context;
+    private int width = 0;
+    private int height = 0;
 
     private final ControllerListener<ImageInfo> imageControllerListener =
             new BaseControllerListener<ImageInfo>() {
                 @Override
                 public void onFinalImageSet(
                         String id,
-                         final ImageInfo imageInfo,
-                         Animatable animatable) {
+                        final ImageInfo imageInfo,
+                        Animatable animatable) {
                     CloseableReference<CloseableImage> imageReference = null;
                     try {
                         imageReference = dataSource.getResult();
@@ -73,6 +80,9 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
                                 Bitmap bitmap = closeableStaticBitmap.getUnderlyingBitmap();
                                 if (bitmap != null) {
                                     bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+                                    if (width != 0 && height != 0) {
+                                        bitmap = resizeImage(bitmap, width, height);
+                                    }
                                     iconBitmapDescriptor = BitmapDescriptorFactory.fromBitmap(bitmap);
                                 }
                             }
@@ -92,12 +102,12 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
         init(context);
     }
 
-    public OverlayMarker(Context context,  AttributeSet attrs) {
+    public OverlayMarker(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
-    public OverlayMarker(Context context,  AttributeSet attrs, int defStyleAttr) {
+    public OverlayMarker(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
@@ -117,7 +127,7 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
     }
 
     @TargetApi(21)
-    public OverlayMarker(Context context,  AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public OverlayMarker(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
     }
@@ -190,6 +200,8 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
         } else if (uri.startsWith("http://") || uri.startsWith("https://") ||
                 uri.startsWith("file://") || uri.startsWith("asset://")) {
             loadingImage = true;
+            width = iconData.width;
+            height = iconData.height;
             ResizeOptions resizeOptions = new ResizeOptions(DensityUtils.dip2px(context, iconData.width)
                     , DensityUtils.dip2px(context, iconData.height));
             ImageRequest imageRequest = ImageRequestBuilder
@@ -291,5 +303,25 @@ public class OverlayMarker extends View implements OverlayView, ClusterItem {
 
     private BitmapDescriptor getBitmapDescriptorByName(String name) {
         return BitmapDescriptorFactory.fromResource(getDrawableResourceByName(name));
+    }
+
+    public Bitmap resizeImage(Bitmap bitmap, int width, int height) {
+        Bitmap newBitmap = bitmap;
+        try {
+            int bmpWidth = bitmap.getWidth();
+            int bmpHeight = bitmap.getHeight();
+
+            float scaleWidth = ((float) width) / bmpWidth;
+            float scaleHeight = ((float) height) / bmpHeight;
+
+            Matrix matrix = new Matrix();
+            matrix.postScale(scaleWidth, scaleHeight);
+
+            newBitmap = Bitmap.createBitmap(bitmap, 0, 0, bmpWidth, bmpHeight, matrix, true);
+            bitmap.recycle();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return newBitmap;
     }
 }
